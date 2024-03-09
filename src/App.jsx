@@ -18,6 +18,7 @@ function App() {
   const indicator = useRef(null);
   const copyBtn = useRef(null);
   const copyAudio = useRef(null);
+  const para = useRef(null);
 
   const passwordGenerator = useCallback(() => {
     let pass = "";
@@ -36,20 +37,25 @@ function App() {
     }
 
     setPassword(pass);
+    if ((isNumber == false) && (isUpperCase == false) && (isSymbol == false) && (isLowerCase == false)) {
+      para.current.style.display = 'block';
+    }
     if (pass) {
+      para.current.style.display = 'none';
 
       if ((isNumber || isSymbol && isUpperCase && isLowerCase) && length >= 7) {
         indicator.current.style.background = 'green';
         indicator.current.style.boxShadow = '0px 0px 12px 1px green';
-      } else if (((isNumber && isSymbol && isUpperCase && isLowerCase) && length <= 6)) {
+      }
+      else if (((isNumber && isSymbol && isUpperCase && isLowerCase) && length <= 6)) {
         indicator.current.style.background = 'yellow';
         indicator.current.style.boxShadow = '0px 0px 12px 1px yellow';
       } else {
         indicator.current.style.background = 'red';
         indicator.current.style.boxShadow = '0px 0px 12px 1px red';
       }
-
     }
+
 
   }, [isNumber, isUpperCase, isLowerCase, isSymbol, setPassword, length])
   const copyPassword = async () => {
@@ -142,7 +148,7 @@ function App() {
           <div ref={indicator} className="indicator" />
         </div>
         {/* generate password button */}
-        <p id="error-para">Please Select the checkBox</p>
+        <p ref={para} id="error-para">Please Select the checkBox</p>
         <button className="generateButton" onClick={passwordGenerator}>generate password</button>
       </div>
     </div>
